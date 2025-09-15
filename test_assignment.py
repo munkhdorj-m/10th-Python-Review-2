@@ -1,50 +1,68 @@
 import pytest
-from assignment import even_numbers, reverse_number, sum_to_n, is_prime, perfect_squares
+import inspect
+from assignment import print_even_numbers, reverse_number, sum_of_n_numbers, is_prime, print_perfect_squares
 
 
-@pytest.mark.parametrize("expected", [
-    (list(range(2, 51, 2)))   # 2, 4, ..., 50
-])
-def test1(expected):
-    assert even_numbers() == expected
+def check_contains_loop(function):
+    source = inspect.getsource(function)
+    return 'for' in source or 'while' in source
 
 
+# Exercise 1 (Print even numbers)
+def test1(capsys):
+    print_even_numbers()
+    captured = capsys.readouterr()
+    output = captured.out.strip().split()
+    expected = list(map(str, range(2, 51, 2)))
+    assert output == expected
+    assert check_contains_loop(print_even_numbers)
+
+
+# Exercise 2 (Reverse number)
 @pytest.mark.parametrize("num, expected", [
     (1234, 4321),
     (907, 709),
     (5, 5),
     (1000, 1),
-    (456789, 987654)
+    (0, 0)
 ])
 def test2(num, expected):
     assert reverse_number(num) == expected
+    assert check_contains_loop(reverse_number)
 
 
+# Exercise 3 (Sum of numbers 1..n)
 @pytest.mark.parametrize("num, expected", [
-    (5, 15),    # 1+2+3+4+5
-    (10, 55),   # 1+...+10
-    (1, 1),     
-    (0, 0),     
-    (7, 28)     # 1+...+7
+    (5, 15),
+    (10, 55),
+    (1, 1),
+    (0, 0),
+    (7, 28)
 ])
 def test3(num, expected):
-    assert sum_to_n(num) == expected
+    assert sum_of_n_numbers(num) == expected
+    assert check_contains_loop(sum_of_n_numbers)
 
 
+# Exercise 4 (Prime check)
 @pytest.mark.parametrize("num, expected", [
-    (7, True),    # prime
-    (12, False),  # not prime
-    (1, False),   # 1 is not prime
-    (2, True),    # prime
-    (19, True),   # prime
-    (20, False)   # not prime
+    (7, True),
+    (12, False),
+    (1, False),
+    (2, True),
+    (29, True),
+    (30, False)
 ])
 def test4(num, expected):
     assert is_prime(num) == expected
+    assert check_contains_loop(is_prime)
 
 
-@pytest.mark.parametrize("expected", [
-    ([i*i for i in range(1, 23)])   # 22^2 = 484, last before 500
-])
-def test5(expected):
-    assert perfect_squares() == expected
+# Exercise 5 (Print perfect squares up to 500)
+def test5(capsys):
+    print_perfect_squares()
+    captured = capsys.readouterr()
+    output = captured.out.strip().split()
+    expected = [str(i * i) for i in range(1, 23) if i * i <= 500]
+    assert output == expected
+    assert check_contains_loop(print_perfect_squares)
