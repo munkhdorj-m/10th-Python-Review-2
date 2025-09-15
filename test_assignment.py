@@ -1,56 +1,50 @@
 import pytest
-from assignment import check_number, rectangle_area, is_divisible_by_5, sum_is_even_or_odd, divisible_by_sum_of_digits
+from assignment import even_numbers, reverse_number, sum_to_n, is_prime, perfect_squares
 
-@pytest.mark.parametrize("length, width, expected", [
-    (5, 3, 15),
-    (10, 2, 20),
-    (7, 7, 49),
-    (1, 9, 9),
-    (0, 5, 0)
+
+@pytest.mark.parametrize("expected", [
+    (list(range(2, 51, 2)))   # 2, 4, ..., 50
 ])
-def test1(length, width, expected):
-    assert rectangle_area(length, width) == expected
+def test1(expected):
+    assert even_numbers() == expected
 
 
 @pytest.mark.parametrize("num, expected", [
-    (5, "Positive"),
-    (-7, "Negative"),
-    (0, "Neither"),
-    (123, "Positive"),
-    (-1, "Negative")
+    (1234, 4321),
+    (907, 709),
+    (5, 5),
+    (1000, 1),
+    (456789, 987654)
 ])
 def test2(num, expected):
-    assert check_number(num) == expected
+    assert reverse_number(num) == expected
+
 
 @pytest.mark.parametrize("num, expected", [
-    (25, True),
-    (12, False),
-    (0, True),
-    (55, True),
-    (7, False)
+    (5, 15),    # 1+2+3+4+5
+    (10, 55),   # 1+...+10
+    (1, 1),     
+    (0, 0),     
+    (7, 28)     # 1+...+7
 ])
 def test3(num, expected):
-    assert is_divisible_by_5(num) == expected
-
-
-@pytest.mark.parametrize("a, b, c, d, expected", [
-    (1, 2, 3, 4, "Even"), 
-    (1, 3, 4, 5, "Odd"),  
-    (2, 2, 2, 2, "Even"),  
-    (0, 1, 7, 3, "Odd"),  
-    (9, 9, 9, 9, "Even")   
-])
-def test4(a, b, c, d, expected):
-    assert sum_is_even_or_odd(a, b, c, d) == expected
+    assert sum_to_n(num) == expected
 
 
 @pytest.mark.parametrize("num, expected", [
-    (121, False),    # 1+2+1=4 → 121%4=1 → False
-    (456, False),    # 4+5+6=15 → 456%15=6 → False
-    (132, True),     # 1+3+2=6 → 132%6=0 → True
-    (111, True),     # 1+1+1=3 → 111%3=0 → True
-    (123, False),    # 1+2+3=6 → 123%6=3 → False
-    (222, True)      # 2+2+2=6 → 222%6=0 → True
+    (7, True),    # prime
+    (12, False),  # not prime
+    (1, False),   # 1 is not prime
+    (2, True),    # prime
+    (19, True),   # prime
+    (20, False)   # not prime
 ])
-def test5(num, expected):
-    assert divisible_by_sum_of_digits(num) == expected
+def test4(num, expected):
+    assert is_prime(num) == expected
+
+
+@pytest.mark.parametrize("expected", [
+    ([i*i for i in range(1, 23)])   # 22^2 = 484, last before 500
+])
+def test5(expected):
+    assert perfect_squares() == expected
