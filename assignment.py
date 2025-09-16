@@ -1,7 +1,6 @@
 # You can remove 'pass' if you written code in the function 
-
 # Exercise 1
-def even_numbers():
+def print_even_numbers():
     # Write your code here
     pass
 
@@ -11,7 +10,7 @@ def reverse_number(num):
     pass
 
 # Exercise 3
-def sum_to_n(num):
+def sum_of_n_numbers(num):
     # Write your code here
     pass
 
@@ -21,6 +20,6 @@ def is_prime(num):
     pass
 
 # Exercise 5
-def perfect_squares():
+def print_perfect_squares():
     # Write your code here
     pass
